@@ -27,15 +27,7 @@ impl OnePasswordSecret {
         let is_unix = cfg!(target_os = "linux") || cfg!(target_os = "macos");
 
        if is_unix {
-            let error = Command::new("op")
-                .arg("--version")
-                .output()
-                .expect("1Password CLI is not installed!")
-                .stderr;
-
-            if !error.is_empty() {
-                panic!("{}", String::from_utf8(error).unwrap().trim());
-            }
+            self.check_op_cli_installed();
 
             let secret = Command::new("op")
                 .arg("read")
@@ -49,6 +41,23 @@ impl OnePasswordSecret {
             }
         } else {
             panic!("Unsupported OS!")
+        }
+    }
+
+    /// Checks if the 1Password CLI tool has been installed on this computer.
+    ///
+    /// panics:
+    /// If an error occurred
+    fn check_op_cli_installed(&self) {
+        let error = Command::new("op")
+            .arg("--version")
+            .output()
+            .expect("1Password CLI is not installed!")
+            .stderr;
+
+        if !error.is_empty() {
+            panic!("Expected 1Password CLI to be installed! Error: {}",
+                   String::from_utf8(error).unwrap().trim());
         }
     }
 }
