@@ -2,5 +2,9 @@
 name = "rust-1password-cli-runner"
 version = "0.1.0"
 edition = "2021"
+description = "A wrapper around the 1Password CLI to use secrets stored in it. Access to 1Password needs to be allowed on a per run base."
+license = "MIT"
+homepage = "https://github.com/Ciel1996/rust-1password-cli-runner"
+readme = "README.md"
 
 [dependencies]
